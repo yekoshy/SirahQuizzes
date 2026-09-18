@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دُرُوسُ السِّيرَةِ النَّبَوِيَّةِ لِلْأَطْفَالِ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4CA1AF;
+            --secondary: #C4E0E5;
+            --accent: #FF9A9E;
+            --text-color: #333333;
+            --light-bg: #F9FAFB;
+            --easy: #4CAF50;
+            --medium: #FF9800;
+            --hard: #F44336;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--secondary);
+            color: var(--text-color);
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #2C3E50;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), #2C3E50);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: white;
+            margin: 0;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        /* Lesson Slides */
+        .lesson-scroll {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 20px;
+            padding: 10px 0;
+            scrollbar-width: thin;
+        }
+
+        .lesson-slide {
+            flex: 0 0 100%;
+            scroll-snap-align: center;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 3px dashed var(--primary);
+        }
+
+        .lesson-slide h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-top: 0;
+        }
+
+        .lesson-slide p {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .lesson-learned {
+            background-color: #FFF9C4;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border-right: 5px solid #FBC02D;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 40px 0 20px;
+        }
+
+        .tab-btn {
+            background-color: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 15px 30px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(76, 161, 175, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Quiz Elements */
+        .quiz-container, .revision-container {
+            position: relative;
+            min-height: 400px;
+        }
+
+        .question-card {
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 1.6rem;
+            color: #2C3E50;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background-color: var(--light-bg);
+            border: 2px solid #E0E0E0;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .option-btn:hover {
+            background-color: var(--secondary);
+            border-color: var(--primary);
+        }
+
+        .option-btn.correct {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .option-btn.wrong {
+            background-color: #F44336;
+            color: white;
+            border-color: #F44336;
+        }
+
+        /* Dots Pagination */
+        .dots-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .dot.easy { background-color: var(--easy); }
+        .dot.medium { background-color: var(--medium); }
+        .dot.hard { background-color: var(--hard); }
+
+        .dot.active {
+            transform: scale(1.4);
+            border: 2px solid #333;
+        }
+
+        .diff-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 15px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .diff-easy { background-color: var(--easy); }
+        .diff-medium { background-color: var(--medium); }
+        .diff-hard { background-color: var(--hard); }
+
+        .feedback-msg {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            display: none;
+            animation: popIn 0.5s ease-out;
+        }
+
+        .next-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            font-size: 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* Animations */
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Festive Effect */
+        .festive {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+            animation: celebrate 1s ease-out forwards;
+        }
+
+        @keyframes celebrate {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+            100% { transform: translate(-50%, -100%) scale(2); opacity: 0; }
+        }
+
+        /* Revision styles */
+        .rev-slide {
+            display: none;
+        }
+        .rev-slide.active {
+            display: block;
+            animation: popIn 0.3s ease-out;
+        }
+        .rev-answer {
+            background: #E8F5E9;
+            color: #2E7D32;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        .rev-ayah {
+            background: #E3F2FD;
+            color: #1565C0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>✨ دُرُوسُ السِّيرَةِ النَّبَوِيَّةِ ✨</h1>
+        <p style="font-size: 1.3rem; margin-top: 10px;">رِحْلَةٌ مُمْتِعَةٌ فِي تَارِيخِ جَزِيرَةِ العَرَبِ قَبْلَ الإِسْلَامِ</p>
+    </div>
+
+    <div class="container">
+        <!-- Lessons Section -->
+        <h2 style="margin-top: 30px;">📚 المُلَخَّصُ الشَّامِلُ (اسْحَبْ لِلْيَسَارِ لِلْقِرَاءَةِ)</h2>
+        <div class="lesson-scroll">
+            
+            <div class="lesson-slide">
+                <h2>🌍 ١. مَوْقِعُ العَرَبِ وَأَقْوَامُهَا</h2>
+                <p>تَقَعُ شِبْهُ جَزِيرَةِ العَرَبِ بَيْنَ قَارَّاتِ العَالَمِ القَدِيمِ، وَتُحِيطُ بِهَا الصَّحَارِي مِمَّا جَعَلَهَا حِصْناً مَنِيعاً. انْقَسَمَ العَرَبُ إِلَى ثَلَاثَةِ أَقْسَامٍ: "العَرَبُ البَائِدَةُ" (الَّذِينَ انْتَهَوْا مِثْلَ عَادٍ وَثَمُودَ)، "العَرَبُ العَارِبَةُ" (قَحْطَان فِي اليَمَنِ)، و"العَرَبُ المُسْتَعْرِبَةُ" (عَدْنَان مِنْ نَسْلِ إِسْمَاعِيلَ عَلَيْهِ السَّلَامُ فِي مَكَّةَ).</p>
+                <div class="lesson-learned">
+                    💡 <strong>الدَّرْسُ المُسْتَفَادُ:</strong> اخْتَارَ اللَّهُ مَكَاناً آمِناً وَمَرْكَزِيّاً بَيْنَ القَارَّاتِ لِيَكُونَ مَهْبِطاً لِرِسَالَتِهِ الخَاتِمَةِ.
+                </div>
+            </div>
+
+            <div class="lesson-slide">
+                <h2>👑 ٢. الحُكْمُ وَالإِمَارَةُ عِنْدَ العَرَبِ</h2>
+                <p>كَانَ هُنَاكَ مُلُوكٌ فِي اليَمَنِ (مِثْلُ حِمْيَرَ وَذِي نُوَاسٍ) ثُمَّ احْتَلَّهَا الحَبَشَةُ ثُمَّ الفُرْسُ. وَفِي الحِيرَةِ مَمْلَكَةٌ تَابِعَةٌ لِلْفُرْسِ، وَفِي الشَّامِ الغَسَاسِنَةُ تَابِعُونَ لِلرُّومِ. أَمَّا فِي الحِجَازِ (مَكَّةَ)، فَقَدْ حَكَمَهَا قُصَيُّ بْنُ كِلَابٍ وَأَسَّسَ "دَارَ النَّدْوَةِ" لِلتَّشَاوُرِ، وَقَسَّمَ وَظَائِفَ الكَعْبَةِ مِثْلَ "السِّقَايَةِ" وَ"الرِّفَادَةِ".</p>
+                <div class="lesson-learned">
+                    💡 <strong>الدَّرْسُ المُسْتَفَادُ:</strong> القِيَادَةُ النَّاجِحَةُ تَعْتَمِدُ عَلَى الشُّورَى (دَار النَّدْوَة) وَخِدْمَةِ النَّاسِ وَإِطْعَامِهِمْ.
+                </div>
+            </div>
+
+            <div class="lesson-slide">
+                <h2>⚔️ ٣. الحَالَةُ السِّيَاسِيَّةُ وَالاِقْتِصَادِيَّةُ</h2>
+                <p>كَانَتِ القَبَائِلُ مُتَفَرِّقَةً وَتَحْدُثُ بَيْنَهُمْ حُرُوبٌ كَثِيرَةٌ لأَسْبَابٍ بَسِيطَةٍ بِسَبَبِ "العَصَبِيَّةِ القَبَلِيَّةِ". اِقْتِصَادِيّاً، كَانُوا يَعْتَمِدُونَ عَلَى التِّجَارَةِ (خُصُوصاً فِي الأَشْهُرِ الحُرُمِ حَيْثُ يَعُمُّ الأَمْنُ)، وَبَعْضِ الزِّرَاعَةِ، وَلَكِنَّ الفَقْرَ كَانَ مُنْتَشِراً بِسَبَبِ الحُرُوبِ.</p>
+                <div class="lesson-learned">
+                    💡 <strong>الدَّرْسُ المُسْتَفَادُ:</strong> الفُرْقَةُ وَالنِّزَاعَاتُ تُؤَدِّي إِلَى الضَّعْفِ وَالفَقْرِ، بَيْنَمَا السَّلَامُ وَالأَمْنُ يَجْلِبَانِ الرَّخَاءَ.
+                </div>
+            </div>
+
+            <div class="lesson-slide">
+                <h2>🕌 ٤. دِيَانَاتُ العَرَبِ فِي الجَاهِلِيَّةِ</h2>
+                <p>كَانَ العَرَبُ عَلَى دِينِ إِبْرَاهِيمَ (التَّوْحِيدِ) حَتَّى جَاءَ رَجُلٌ يُدْعَى "عَمْرُو بْنُ لُحَيٍّ" فَجَلَبَ الأَصْنَامَ (مِثْلَ هُبَلَ، وَاللَّاتِ، وَالعُزَّى) مِنْ الشَّامِ وَأَمَرَ النَّاسَ بِعِبَادَتِهَا! وَابْتَدَعُوا أُمُوراً كَتَحْرِيمِ بَعْضِ الأَنْعَامِ مِثْل "البَحِيرَةِ". كَمَا تَوَاجَدَتْ بَعْضُ الدِّيَانَاتِ الأُخْرَى كَاليَهُودِيَّةِ وَالنَّصْرَانِيَّةِ.</p>
+                <div class="lesson-learned">
+                    💡 <strong>الدَّرْسُ المُسْتَفَادُ:</strong> يَجِبُ عَلَيْنَا التَّمَسُّكُ بِالتَّوْحِيدِ الصَّافِي وَعَدَمُ الاِنْجِرَارِ وَرَاءَ الخُرَافَاتِ وَالبِدَعِ.
+                </div>
+            </div>
+
+            <div class="lesson-slide">
+                <h2>🤝 ٥. الأَخْلَاقُ الجَاهِلِيَّةُ</h2>
+                <p>رَغْمَ وُجُودِ عَادَاتٍ سَيِّئَةٍ كَوَأْدِ البَنَاتِ (دَفْنِهِنَّ أَحْيَاءً) وَشُرْبِ الخَمْرِ، إِلَّا أَنَّ العَرَبَ تَمَتَّعُوا بِأَخْلَاقٍ رَائِعَةٍ جِدّاً! مِثْلَ: الكَرَمِ الشَّدِيدِ، الشَّجَاعَةِ، الوَفَاءِ بِالعَهْدِ، الصِّدْقِ، وَعِزَّةِ النَّفْسِ.</p>
+                <div class="lesson-learned">
+                    💡 <strong>الدَّرْسُ المُسْتَفَادُ:</strong> جَاءَ الإِسْلَامُ لِيَمْحُوَ الأَخْلَاقَ السَّيِّئَةَ، وَيُثَبِّتَ وَيُكَمِّلَ الأَخْلَاقَ الحَسَنَةَ الكَرِيمَةَ.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('quiz-tab')">📝 اخْتَبِرْ مَعْلُومَاتِكَ</button>
+            <button class="tab-btn" onclick="switchTab('revision-tab')">📖 المُرَاجَعَةُ</button>
+        </div>
+
+        <!-- Quiz Tab -->
+        <div id="quiz-tab" class="tab-content active">
+            <div class="quiz-container" id="quiz-box">
+                <!-- Content injected via JS -->
+            </div>
+            <div class="dots-container" id="quiz-dots"></div>
+        </div>
+
+        <!-- Revision Tab -->
+        <div id="revision-tab" class="tab-content">
+            <div class="revision-container" id="rev-box">
+                <!-- Content injected via JS -->
+            </div>
+            <div class="dots-container" id="rev-dots"></div>
+        </div>
+
+    </div>
+
+    <!-- Festive Emoji Element -->
+    <div class="festive" id="festive-emoji">🎉🥳⭐</div>
+
+<script>
+    // --- Quiz Data ---
+    const questions = [
+        {
+            q: "أَقْسَامُ العَرَبِ ثَلَاثَةٌ، مِنْهَا العَرَبُ المُسْتَعْرِبَةُ.. فَمِنْ نَسْلِ مَنْ جَاءُوا؟",
+            options: ["قَحْطَانُ", "إِسْمَاعِيلُ عَلَيْهِ السَّلَامُ", "عَادٌ وَثَمُودُ"],
+            answer: 1,
+            diff: "easy", diffText: "سَهْلٌ",
+            explanation: "العَرَبُ المُسْتَعْرِبَةُ هُمْ نَسْلُ سَيِّدِنَا إِسْمَاعِيلَ بْنِ إِبْرَاهِيمَ عَلَيْهِمَا السَّلَامُ.",
+            ayah: "قَالَ النَّبِيُّ ﷺ: «إِنَّ اللَّهَ اصْطَفَى مِنْ وَلَدِ إِبْرَاهِيمَ إِسْمَاعِيلَ...»"
+        },
+        {
+            q: "مَنْ هُوَ أَوَّلُ مَنْ أَدْخَلَ عِبَادَةَ الأَصْنَامِ إِلَى مَكَّةَ المُكَرَّمَةِ؟",
+            options: ["عَمْرُو بْنُ لُحَيٍّ", "أَبْرَهَةُ الحَبَشِيُّ", "ذُو نُوَاسٍ"],
+            answer: 0,
+            diff: "easy", diffText: "سَهْلٌ",
+            explanation: "عَمْرُو بْنُ لُحَيٍّ هُوَ رَئِيسُ خُزَاعَةَ الَّذِي جَلَبَ صَنَمَ (هُبَل) مِنَ الشَّامِ.",
+            ayah: "الآيَة الكَرِيمَة: {وَمَا ذُبِحَ عَلَى النُّصُبِ} (المائدة: 3)"
+        },
+        {
+            q: "مَا هِيَ أَكْبَرُ وَأَشْهَرُ أَصْنَامِ العَرَبِ فِي الجَاهِلِيَّةِ؟",
+            options: ["يَغُوثُ وَيَعُوقُ وَنَسْراً", "اللَّاتُ وَالعُزَّى وَمَنَاةُ", "إِسَافُ وَنَائِلَةُ"],
+            answer: 1,
+            diff: "easy", diffText: "سَهْلٌ",
+            explanation: "اللَّاتُ وَالعُزَّى وَمَنَاةُ كَانَتْ أَكْبَرَ أَوْثَانِ العَرَبِ، فَاللَّاتُ بِالطَّائِفِ، وَالعُزَّى بِنَخْلَةَ، وَمَنَاةُ بِالمُشَلَّلِ.",
+            ayah: "قَالَ تَعَالَى: {أَفَرَأَيْتُمُ اللَّاتَ وَالْعُزَّى (19) وَمَنَاةَ الثَّالِثَةَ الْأُخْرَى (20)} (النجم)"
+        },
+        {
+            q: "دَارٌ بَنَاهَا قُصَيُّ بْنُ كِلَابٍ لِتَجْتَمِعَ فِيهَا قُرَيْشٌ لِلتَّشَاوُرِ، مَا اسْمُهَا؟",
+            options: ["دَارُ الأَرْقَمِ", "دَارُ النَّدْوَةِ", "دَارُ الضِّيَافَةِ"],
+            answer: 1,
+            diff: "medium", diffText: "مُتَوَسِّطٌ",
+            explanation: "أَسَّسَ قُصَيٌّ دَارَ النَّدْوَةِ لِتَكُونَ مَجْلِساً لِلشُّورَى وَتَنْظِيمِ شُؤُونِ مَكَّةَ.",
+            ayah: "وَقَدْ كَانَتْ دَارُ النَّدْوَةِ بِمَثَابَةِ مَجْلِسٍ (بَرْلَمَان) مُصَغَّرٍ لِقُرَيْشٍ."
+        },
+        {
+            q: "مَنْ هُوَ المَلِكُ الَّذِي حَرَّقَ الْمَسِيحِيِّينَ مِنْ أَهْلِ نَجْرَانَ فِي الْأُخْدُودِ؟",
+            options: ["تُبَّان أَسْعَد", "مَعْدِيكَرِب", "ذُو نُوَاسٍ"],
+            answer: 2,
+            diff: "medium", diffText: "مُتَوَسِّطٌ",
+            explanation: "ذُو نُوَاسٍ الْيَهُودِيُّ هُوَ مَنْ حَفَرَ الأُخْدُودَ وَأَحْرَقَ فِيهِ المُؤْمِنِينَ.",
+            ayah: "قَالَ تَعَالَى: {قُتِلَ أَصْحَابُ الْأُخْدُودِ (4) النَّارِ ذَاتِ الْوَقُودِ (5)} (البروج)"
+        },
+        {
+            q: "قَبِيلَةٌ عَرَبِيَّةٌ اسْتَوْلَتْ عَلَى حُكْمِ مَكَّةَ قَبْلَ أَنْ يَسْتَرِدَّهَا قُصَيُّ بْنُ كِلَابٍ؟",
+            options: ["خُزَاعَةُ", "هَوَازِنُ", "غَطَفَانُ"],
+            answer: 0,
+            diff: "medium", diffText: "مُتَوَسِّطٌ",
+            explanation: "خُزَاعَةُ اسْتَوْلَتْ عَلَى مَكَّةَ لِمُدَّةِ 300 سَنَةٍ بَعْدَ طَرْدِهِمْ لِقَبِيلَةِ جُرْهُمَ.",
+            ayah: "وَفِي عَهْدِ خُزَاعَةَ بَدَأَتْ عِبَادَةُ الأَصْنَامِ عَلَى يَدِ عَمْرِو بْنِ لُحَيٍّ الخُزَاعِيِّ."
+        },
+        {
+            q: "مَاذَا تُسَمَّى النَّاقَةُ الَّتِي تُشَقُّ أُذُنُهَا وَتُمْنَعُ عَنِ الرُّكُوبِ تَقَرُّباً لِلْأَصْنَامِ؟",
+            options: ["السَّائِبَةُ", "البَحِيرَةُ", "الوَصِيلَةُ"],
+            answer: 1,
+            diff: "hard", diffText: "صَعْبٌ",
+            explanation: "البَحِيرَةُ هِيَ النَّاقَةُ الَّتِي تُشَقُّ أُذُنُهَا وَلَا يُرْكَبُ ظَهْرُهَا افْتِرَاءً عَلَى اللَّهِ.",
+            ayah: "قَالَ تَعَالَى: {مَا جَعَلَ اللَّهُ مِنْ بَحِيرَةٍ وَلَا سَائِبَةٍ وَلَا وَصِيلَةٍ وَلَا حَامٍ} (المائدة: 103)"
+        },
+        {
+            q: "وَظِيفَةٌ فِي مَكَّةَ تَعْنِي صِنَاعَةَ الطَّعَامِ لِلْحُجَّاجِ لِإِكْرَامِهِمْ، مَا اسْمُهَا؟",
+            options: ["السِّقَايَةُ", "الرِّفَادَةُ", "الحِجَابَةُ"],
+            answer: 1,
+            diff: "hard", diffText: "صَعْبٌ",
+            explanation: "الرِّفَادَةُ كَانَتْ طَعَاماً يُصْنَعُ لِحُجَّاجِ بَيْتِ اللَّهِ الحَرَامِ عَلَى طَرِيقَةِ الضِّيَافَةِ.",
+            ayah: "كَانَ قُصَيُّ بْنُ كِلَابٍ يَجْمَعُ المَالَ مِنْ قُرَيْشٍ لِيُطْعِمَ بِهِ الحُجَّاجَ الفُقَرَاءَ."
+        },
+        {
+            q: "فِي أَيِّ مَعْرَكَةٍ انْتَصَرَتِ العَرَبُ (بَنُو شَيْبَانَ) عَلَى جُيُوشِ الفُرْسِ؟",
+            options: ["يَوْمُ بُعَاثَ", "ذِي قَارٍ", "دُومَةُ الجَنْدَلِ"],
+            answer: 1,
+            diff: "hard", diffText: "صَعْبٌ",
+            explanation: "مَعْرَكَةُ ذِي قَارٍ هِيَ أَوَّلُ مَعْرَكَةٍ تَنْتَصِرُ فِيهَا العَرَبُ عَلَى العَجَمِ (الفُرْس).",
+            ayah: "وَقَعَتْ هَذِهِ المَعْرَكَةُ بَعْدَ مِيلَادِ النَّبِيِّ ﷺ بِقَلِيلٍ."
+        },
+        {
+            q: "أَيُّ الأَخْلَاقِ التَّالِيَةِ اعْتُبِرَتْ سَبَباً فِي اخْتِيَارِ العَرَبِ لِحَمْلِ الرِّسَالَةِ؟",
+            options: ["عِزَّةُ النَّفْسِ وَالمُضِيُّ فِي العَزَائِمِ", "كَثْرَةُ الأَمْوَالِ", "الخِبْرَةُ بِالزِّرَاعَةِ"],
+            answer: 0,
+            diff: "hard", diffText: "صَعْبٌ",
+            explanation: "عِزَّةُ النَّفْسِ وَالشَّجَاعَةُ الصَّادِقَةُ هِيَ الَّتِي يُمْكِنُ بِهَا إِقَامَةُ نِظَامِ العَدْلِ وَدَحْرِ الفَسَادِ.",
+            ayah: "قَالَ النَّبِيُّ ﷺ: «إِنَّمَا بُعِثْتُ لِأُتَمِّمَ مَكَارِمَ الأَخْلَاقِ»."
+        }
+    ];
+
+    // --- State Variables ---
+    let currentQuizIndex = 0;
+    let score = 0;
+
+    // --- Tab Logic ---
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    // --- Init Revision ---
+    function initRevision() {
+        const revBox = document.getElementById('rev-box');
+        const revDots = document.getElementById('rev-dots');
+        
+        questions.forEach((q, index) => {
+            // Slide
+            const slide = document.createElement('div');
+            slide.className = `rev-slide ${index === 0 ? 'active' : ''}`;
+            slide.id = `rev-slide-${index}`;
+            slide.innerHTML = `
+                <div class="diff-badge diff-${q.diff}">${q.diffText}</div>
+                <div class="question-text">${index + 1}. ${q.q}</div>
+                <div class="rev-answer">✅ الإِجَابَةُ: ${q.options[q.answer]}</div>
+                <div class="rev-ayah">📖 تَوْضِيحٌ: ${q.explanation}<br><br>✨ ${q.ayah}</div>
+            `;
+            revBox.appendChild(slide);
+
+            // Dot
+            const dot = document.createElement('div');
+            dot.className = `dot ${q.diff} ${index === 0 ? 'active' : ''}`;
+            dot.onclick = () => showRevSlide(index);
+            revDots.appendChild(dot);
+        });
+    }
+
+    function showRevSlide(index) {
+        document.querySelectorAll('.rev-slide').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('#rev-dots .dot').forEach(d => d.classList.remove('active'));
+        document.getElementById(`rev-slide-${index}`).classList.add('active');
+        document.querySelectorAll('#rev-dots .dot')[index].classList.add('active');
+    }
+
+    // --- Init Quiz ---
+    function initQuiz() {
+        const dotsContainer = document.getElementById('quiz-dots');
+        dotsContainer.innerHTML = '';
+        questions.forEach((q, index) => {
+            const dot = document.createElement('div');
+            dot.className = `dot ${q.diff} ${index === 0 ? 'active' : ''}`;
+            dot.id = `quiz-dot-${index}`;
+            // dot.onclick = () => loadQuizQuestion(index); // disable direct jump in quiz to enforce flow
+            dotsContainer.appendChild(dot);
+        });
+        loadQuizQuestion(0);
+    }
+
+    function loadQuizQuestion(index) {
+        currentQuizIndex = index;
+        const q = questions[index];
+        const quizBox = document.getElementById('quiz-box');
+        
+        // Update Dots
+        document.querySelectorAll('#quiz-dots .dot').forEach((d, i) => {
+            d.classList.remove('active');
+            if(i === index) d.classList.add('active');
+        });
+
+        let optionsHtml = '';
+        q.options.forEach((opt, i) => {
+            optionsHtml += `<button class="option-btn" onclick="checkAnswer(${i})">${opt}</button>`;
+        });
+
+        quizBox.innerHTML = `
+            <div class="question-card">
+                <div class="diff-badge diff-${q.diff}">${q.diffText}</div>
+                <div class="question-text">${index + 1}. ${q.q}</div>
+                <div class="options" id="options-container">${optionsHtml}</div>
+                <div id="feedback" class="feedback-msg"></div>
+                <button id="next-btn" class="next-btn" onclick="nextQuizQuestion()">السُّؤَالُ التَّالِي</button>
+            </div>
+        `;
+    }
+
+    function checkAnswer(selectedIndex) {
+        const q = questions[currentQuizIndex];
+        const optionsDiv = document.getElementById('options-container');
+        const buttons = optionsDiv.getElementsByTagName('button');
+        const feedback = document.getElementById('feedback');
+        const nextBtn = document.getElementById('next-btn');
+
+        // Disable all buttons
+        for(let btn of buttons) {
+            btn.disabled = true;
+            btn.style.cursor = 'not-allowed';
+        }
+
+        if(selectedIndex === q.answer) {
+            // Correct
+            buttons[selectedIndex].classList.add('correct');
+            feedback.innerHTML = `🌟 أَحْسَنْتَ! إِجَابَةٌ صَحِيحَةٌ 🌟<br><span style="font-size:1rem;font-weight:normal;color:#333;display:block;margin-top:10px;">${q.explanation}</span>`;
+            feedback.style.backgroundColor = '#E8F5E9';
+            feedback.style.color = '#2E7D32';
+            feedback.style.display = 'block';
+            score++;
+            showFestive();
+        } else {
+            // Wrong
+            buttons[selectedIndex].classList.add('wrong');
+            buttons[q.answer].classList.add('correct');
+            feedback.innerHTML = `❌ حَاوِلْ مَرَّةً أُخْرَى!<br><span style="color:#D32F2F;">الإِجَابَةُ الصَّحِيحَةُ هِيَ: ${q.options[q.answer]}</span><br><br><span style="font-size:1.1rem;color:#1565C0;">📖 ${q.ayah}</span>`;
+            feedback.style.backgroundColor = '#FFEBEE';
+            feedback.style.color = '#C62828';
+            feedback.style.display = 'block';
+        }
+
+        if (currentQuizIndex === questions.length - 1) {
+            nextBtn.innerHTML = "🏆 إِنْهَاءُ الاِخْتِبَارِ 🏆";
+        }
+        nextBtn.style.display = 'inline-block';
+    }
+
+    function showFestive() {
+        const festive = document.getElementById('festive-emoji');
+        festive.style.display = 'block';
+        // Reset animation
+        festive.style.animation = 'none';
+        setTimeout(() => {
+            festive.style.animation = 'celebrate 1s ease-out forwards';
+        }, 10);
+        
+        setTimeout(() => {
+            festive.style.display = 'none';
+        }, 1000);
+    }
+
+    function nextQuizQuestion() {
+        if (currentQuizIndex < questions.length - 1) {
+            loadQuizQuestion(currentQuizIndex + 1);
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        const quizBox = document.getElementById('quiz-box');
+        document.getElementById('quiz-dots').style.display = 'none';
+        
+        let msg = "";
+        let emoji = "";
+        if(score >= 8) { msg = "مُمْتَازٌ! أَنْتَ بَطَلٌ فِي السِّيرَةِ!"; emoji = "🏆🥇"; }
+        else if(score >= 5) { msg = "جَيِّدٌ جِدّاً! لَقَدْ تَعَلَّمْتَ الكَثِيرَ."; emoji = "👍🌟"; }
+        else { msg = "يُمْكِنُكَ المُرَاجَعَةُ وَالمُحَاوَلَةُ مَرَّةً أُخْرَى!"; emoji = "📚💪"; }
+
+        quizBox.innerHTML = `
+            <div class="question-card" style="padding: 40px 0;">
+                <h1 style="font-size: 4rem; margin:0;">${emoji}</h1>
+                <h2 style="font-size: 2rem; color: var(--primary);">النَّتِيجَةُ النِّهَائِيَّةُ</h2>
+                <div style="font-size: 3rem; font-weight: bold; color: #2C3E50; margin: 20px 0;">
+                    ${score} / 10
+                </div>
+                <h3 style="color: var(--medium);">${msg}</h3>
+                <button class="next-btn" style="display:inline-block; margin-top:30px;" onclick="location.reload()">🔄 إِعَادَةُ الاِخْتِبَارِ</button>
+            </div>
+        `;
+    }
+
+    // Initialize everything on load
+    window.onload = () => {
+        initRevision();
+        initQuiz();
+    };
+
+</script>
+</body>
+</html>
