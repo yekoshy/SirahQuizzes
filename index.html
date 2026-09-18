@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرَّئِيسِيَّةُ - دُرُوسُ السِّيرَةِ النَّبَوِيَّةِ لِلْأَطْفَالِ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4CA1AF;
+            --secondary: #C4E0E5;
+            --accent: #FF9A9E;
+            --text-color: #333333;
+            --light-bg: #F9FAFB;
+            --easy: #4CAF50;
+            --medium: #FF9800;
+            --hard: #F44336;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--secondary);
+            color: var(--text-color);
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #2C3E50;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), #2C3E50);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            color: white;
+            margin: 0;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.4rem;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #E0F7FA;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: -30px auto 40px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Intro Card */
+        .intro-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 40px;
+            border: 3px solid var(--primary);
+        }
+
+        .intro-card h2 {
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .intro-card p {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .book-ref {
+            display: inline-block;
+            background-color: #FFF9C4;
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: #F57F17;
+            font-weight: 900;
+            font-size: 1.2rem;
+            text-decoration: none;
+            margin-top: 15px;
+            border: 2px dashed #FBC02D;
+            transition: 0.3s;
+        }
+
+        .book-ref:hover {
+            background-color: #FFF59D;
+            transform: scale(1.05);
+        }
+
+        /* Lessons Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 6px solid var(--primary);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .lesson-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .lesson-title {
+            color: #2C3E50;
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .lesson-desc {
+            color: #666;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .btn-start {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .lesson-card:hover .btn-start {
+            background-color: #3b8b98;
+            box-shadow: 0 4px 10px rgba(76, 161, 175, 0.4);
+        }
+
+        /* Locked Card Style */
+        .lesson-card.locked {
+            border-bottom: 6px solid #B0BEC5;
+            background: #ECEFF1;
+            cursor: not-allowed;
+        }
+
+        .lesson-card.locked:hover {
+            transform: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .lesson-card.locked .lesson-icon {
+            filter: grayscale(100%);
+            opacity: 0.5;
+        }
+
+        .lesson-card.locked .lesson-title {
+            color: #78909C;
+        }
+
+        .lesson-card.locked .btn-start {
+            background-color: #B0BEC5;
+            cursor: not-allowed;
+            color: #ececec;
+        }
+
+        .badge-new {
+            position: absolute;
+            top: 15px;
+            right: -35px;
+            background-color: #FF5252;
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Animations */
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            60% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .intro-card {
+            animation: bounceIn 0.8s ease-out;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>✨ رِحْلَةُ السِّيرَةِ النَّبَوِيَّةِ ✨</h1>
+        <p>مَرْحَباً بِكُمْ يَا أَبْطَالُ فِي أَجْمَلِ رِحْلَةٍ لِتَعَلُّمِ سِيرَةِ حَبِيبِنَا مُحَمَّدٍ ﷺ</p>
+    </div>
+
+    <div class="container">
+        
+        <!-- Intro Box -->
+        <div class="intro-card">
+            <h2>📜 خَرِيطَةُ الرِّحْلَةِ</h2>
+            <p>سَنَتَعَلَّمُ مَعاً قِصَّةَ النَّبِيِّ ﷺ مُنْذُ الْبِدَايَةِ، بِشَكْلٍ مُبَسَّطٍ وَمُمْتَعٍ جِدّاً! كُلُّ دَرْسٍ يَحْتَوِي عَلَى مُلَخَّصٍ جَمِيلٍ وَمُسَابَقَةٍ تَفَاعُلِيَّةٍ لِتَجْمِيعِ النِّقَاطِ.</p>
+            <a href="https://shamela.ws/book/9820/7" target="_blank" class="book-ref">📚 الْمَصْدَرُ: كِتَابُ الرَّحِيقِ الْمَخْتُومِ</a>
+        </div>
+
+        <!-- Lessons Grid -->
+        <h2 style="margin-bottom: 25px; font-size: 2.2rem; color: #2C3E50;">🗺️ قَائِمَةُ الدُّرُوسِ:</h2>
+        
+        <div class="grid-container">
+            
+            <!-- Lesson 1 (Active) -->
+            <a href="1.html" class="lesson-card">
+                <div class="badge-new">جَدِيدٌ!</div>
+                <div class="lesson-icon">🌍</div>
+                <div class="lesson-title">١. مَوْقِعُ الْعَرَبِ وَأَقْوَامُهَا</div>
+                <div class="lesson-desc">تَعَرَّفْ عَلَى جَزِيرَةِ الْعَرَبِ، وَالْقَبَائِلِ الْقَدِيمَةِ، وَكَيْفَ كَانَتْ حَيَاتُهُمْ قَبْلَ الْإِسْلَامِ.</div>
+                <button class="btn-start">🚀 ابْدَأِ الرِّحْلَةَ الْآنَ</button>
+            </a>
+
+            <!-- Lesson 2 (Locked / Coming Soon) -->
+            <div class="lesson-card locked">
+                <div class="lesson-icon">👶🏻</div>
+                <div class="lesson-title">٢. النَّسَبُ وَالْمَوْلِدُ الشَّرِيفُ</div>
+                <div class="lesson-desc">سَنَتَعَرَّفُ عَلَى عَائِلَةِ النَّبِيِّ ﷺ، وَقِصَّةِ مَوْلِدِهِ الْمُبَارَكِ فِي مَكَّةَ الْمُكَرَّمَةِ.</div>
+                <button class="btn-start">⏳ قَرِيباً إِنْ شَاءَ اللَّهُ</button>
+            </div>
+
+            <!-- Lesson 3 (Locked / Coming Soon) -->
+            <div class="lesson-card locked">
+                <div class="lesson-icon">🕊️</div>
+                <div class="lesson-title">٣. حَيَاتُهُ قَبْلَ الْبَعْثَةِ</div>
+                <div class="lesson-desc">كَيْفَ عَاشَ النَّبِيُّ ﷺ فِي طُفُولَتِهِ وَشَبَابِهِ؟ وَمَا هِيَ قِصَّةُ حِلْفِ الْفُضُولِ؟</div>
+                <button class="btn-start">⏳ قَرِيباً إِنْ شَاءَ اللَّهُ</button>
+            </div>
+
+            <!-- Lesson 4 (Locked / Coming Soon) -->
+            <div class="lesson-card locked">
+                <div class="lesson-icon">📖</div>
+                <div class="lesson-title">٤. نُزُولُ الْوَحْيِ</div>
+                <div class="lesson-desc">قِصَّةُ غَارِ حِرَاءَ، وَكَيْفَ نَزَلَ جِبْرِيلُ عَلَيْهِ السَّلَامُ بِأَوَّلِ كَلِمَةٍ: (اقْرَأْ).</div>
+                <button class="btn-start">⏳ قَرِيباً إِنْ شَاءَ اللَّهُ</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
